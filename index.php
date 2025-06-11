@@ -8,80 +8,84 @@ try {
     $conn = new PDO("sqlsrv:server=$server;Database=$database", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Get first available table
-    $tableQuery = "SELECT TOP 1 TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME";
-    $stmt = $conn->query($tableQuery);
-    $tableName = $stmt->fetchColumn();
-
-    echo "<!DOCTYPE html>
-    <html>
-    <head>
-        <title>Azure PHP + SQL App</title>
-        <style>
-            body {
-                font-family: 'Segoe UI', sans-serif;
-                background-color: #f9f9f9;
-                padding: 40px;
-                color: #333;
-            }
-            h1 {
-                color: #005f9e;
-            }
-            table {
-                border-collapse: collapse;
-                width: 90%;
-                margin-top: 20px;
-                background: white;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            }
-            th, td {
-                border: 1px solid #ddd;
-                padding: 12px 15px;
-                text-align: left;
-            }
-            th {
-                background-color: #0078D7;
-                color: white;
-            }
-            tr:nth-child(even) {
-                background-color: #f2f2f2;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>🌐 Azure App Service + SQL (Auto Table Viewer)</h1>";
-
-    if ($tableName) {
-        echo "<h2>🗂️ Showing table: <code>$tableName</code></h2>";
-
-        // Query all data from the table
-        $dataQuery = "SELECT * FROM [$tableName]";
-        $stmt = $conn->query($dataQuery);
-
-        // Render table
-        echo "<table><thead><tr>";
-        for ($i = 0; $i < $stmt->columnCount(); $i++) {
-            $meta = $stmt->getColumnMeta($i);
-            echo "<th>{$meta['name']}</th>";
-        }
-        echo "</tr></thead><tbody>";
-
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            echo "<tr>";
-            foreach ($row as $cell) {
-                echo "<td>" . htmlspecialchars($cell) . "</td>";
-            }
-            echo "</tr>";
-        }
-
-        echo "</tbody></table>";
-    } else {
-        echo "<p>❌ No user-defined tables found in the database.</p>";
-    }
-
-    echo "</body></html>";
+    $sql = "SELECT tool_name, category, description, language_support, license_type, created_at FROM devops_tools ORDER BY created_at DESC";
+    $stmt = $conn->query($sql);
+    $tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
-    echo "<p style='color:red;'>❌ Connection failed: " . $e->getMessage() . "</p>";
+    die("Connection failed: " . $e->getMessage());
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DevOps Tools Dashboard</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f9;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        table {
+            margin: auto;
+            width: 90%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #0078d4;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Top DevOps Tools</h1>
+
+<table>
+    <tr>
+        <th>Tool Name</th>
+        <th>Category</th>
+        <th>Description</th>
+        <th>Language Support</th>
+        <th>License</th>
+        <th>Created At</th>
+    </tr>
+    <?php foreach ($tools as $tool): ?>
+        <tr>
+            <td><?= htmlspecialchars($tool['tool_name']) ?></td>
+            <td><?= htmlspecialchars($tool['category']) ?></td>
+            <td><?= htmlspecialchars($tool['description']) ?></td>
+            <td><?= htmlspecialchars($tool['language_support']) ?></td>
+            <td><?= htmlspecialchars($tool['license_type']) ?></td>
+            <td><?= htmlspecialchars($tool['created_at']) ?></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+<div class="footer">
+    Powered by Azure SQL & PHP on App Service 🚀
+</div>
+
+</body>
+</html>
