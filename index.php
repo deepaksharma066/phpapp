@@ -11,12 +11,10 @@ try {
     $sql = "SELECT tool_name, category, description, language_support, license_type, created_at FROM devops_tools ORDER BY created_at DESC";
     $stmt = $conn->query($sql);
     $tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,9 +57,7 @@ try {
     </style>
 </head>
 <body>
-
 <h1>Top DevOps Tools</h1>
-
 <table>
     <tr>
         <th>Tool Name</th>
@@ -82,10 +78,8 @@ try {
         </tr>
     <?php endforeach; ?>
 </table>
-
 <div class="footer">
     Powered by Azure SQL & PHP on App Service 🚀
 </div>
-
 </body>
 </html>
