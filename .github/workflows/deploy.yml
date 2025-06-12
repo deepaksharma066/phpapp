@@ -18,6 +18,10 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+    - name: Create deployment ZIP
+      run: |
+        powershell Compress-Archive -Path * -DestinationPath app.zip
+
     - name: Zip Deploy using Azure CLI
       run: |
-        az webapp deploy --resource-group third --name webapp-php-sql --src-path . --type zip
+        az webapp deploy --resource-group third --name webapp-php-sql --src-path app.zip --type zip
