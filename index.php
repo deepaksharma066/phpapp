@@ -1,6 +1,6 @@
 <?php
-$server = "tcp:sql-phpapp-centralus.database.windows.net,1433";
-$database = "db-phpapp-centralus";
+$server = "tcp:sql-app-service.database.windows.net,1433";
+$database = "db-techlearner";
 $username = "sqladmin";
 $password = "V7m#Lk@9xZ!tQ2eW";
 
