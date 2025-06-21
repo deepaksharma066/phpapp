@@ -1,5 +1,5 @@
 <?php
-$server = "tcp:sql-app-service.database.windows.net,1433";
+$server = "tcp:sql-app-service.privatelink.database.windows.net,1433";
 $database = "db-techlearner";
 $username = "sqladmin";
 $password = "V7m#Lk@9xZ!tQ2eW";
@@ -91,7 +91,7 @@ try {
         }
 
         tr:hover {
-            background-color: #f1f1f1;
+            background-color: #f9f9f9;
         }
 
         footer {
@@ -118,7 +118,7 @@ try {
     <p>Where Learning Meets Engineering</p>
 </header>
 
-<img class="hero-image" src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1350&q=80" alt="DevOps Banner">
+<img class="hero-image" src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1350&q=80" alt="DevOps Tools Banner">
 
 <div class="container">
     <h2>Top DevOps Tools</h2>
@@ -149,7 +149,7 @@ try {
 </div>
 
 <footer>
-    &copy; <?= date("Y") ?> TechLearner | Powered by Azure App Service & SQL Server 🚀
+    &copy; <?= date("Y") ?> TechLearner | Powered by Azure SQL & App Service 🚀
 </footer>
 
 </body>
