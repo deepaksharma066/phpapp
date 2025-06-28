@@ -1,5 +1,5 @@
 <?php
-$server = "tcp:sql-app-service.privatelink.database.windows.net,1433";
+$server = "tcp:sql-app-service.database.windows.net,1433";
 $database = "db-techlearner";
 $username = "sqladmin";
 $password = "V7m#Lk@9xZ!tQ2eW";
